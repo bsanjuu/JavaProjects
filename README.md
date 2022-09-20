@@ -1,2 +1,2 @@
-# JavaProgrmas
+# JavaPrograms
 Java Practice
