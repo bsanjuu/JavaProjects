@@ -2,9 +2,10 @@
 
 Program to copy all the elements of one array into another array.
 
+* @author Nsanj
 *******************************************************************************/
 
-public class Main
+public class ArrayCopy
 {
 	public static void main(String[] args) {
 		

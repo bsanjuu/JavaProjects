@@ -2,9 +2,10 @@
 
 Program to swap two numbers
 
+* @author Nsanj
 *******************************************************************************/
 
-public class Main
+public class SwapTwo
 {
 	public static void main(String[] args) {
 		

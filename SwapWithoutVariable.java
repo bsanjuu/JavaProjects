@@ -1,10 +1,11 @@
 /******************************************************************************
 
 Program to swap two numbers without third variable
+* @author Nsanj
 
 *******************************************************************************/
 
-public class Main
+public class SwapWithoutVariable
 {
 	public static void main(String[] args) {
 		
