@@ -1,8 +1,13 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.io.image.ImageDataFactory;
 
 public class Main {
 
@@ -32,11 +37,13 @@ public class Main {
         JButton generateButton = new JButton("Generate Certificate");
         generateButton.setBounds(200, 180, 200, 30);
 
-        JTextArea resultArea = new JTextArea();
-        resultArea.setBounds(50, 220, 500, 100);
-        resultArea.setLineWrap(true);
-        resultArea.setWrapStyleWord(true);
-        resultArea.setEditable(false);
+        JTextPane resultPane = new JTextPane();
+        resultPane.setBounds(50, 220, 500, 100);
+        resultPane.setContentType("text/html"); // Set content type to HTML
+        resultPane.setEditable(false);
+
+        JButton downloadButton = new JButton("Download PDF");
+        downloadButton.setBounds(200, 330, 200, 30);
 
         frame.add(nameLabel);
         frame.add(nameField);
@@ -45,7 +52,8 @@ public class Main {
         frame.add(dateLabel);
         frame.add(dateField);
         frame.add(generateButton);
-        frame.add(resultArea);
+        frame.add(resultPane);
+        frame.add(downloadButton);
 
         generateButton.addActionListener(new ActionListener() {
             @Override
@@ -55,21 +63,62 @@ public class Main {
                 String date = dateField.getText();
 
                 String certificate = generateBonafideCertificate(studentName, courseName, date);
-                resultArea.setText(certificate);
+                resultPane.setText(certificate);
+            }
+        });
+
+        downloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String studentName = nameField.getText();
+                String courseName = (String) courseComboBox.getSelectedItem();
+                String date = dateField.getText();
+
+                try {
+                    PdfWriter writer = new PdfWriter("BonafideCertificate.pdf");
+                    PdfDocument pdfDoc = new PdfDocument(writer);
+                    Document doc = new Document(pdfDoc);
+
+                    // Add a header with the university logo and name
+                    Image logo = new Image(ImageDataFactory.create("university_logo.png"));
+                    logo.scaleToFit(100, 100);
+                    doc.add(logo);
+                    doc.add(new Paragraph("American University of the Middle East").setFontSize(24).setBold());
+
+                    // Add a section for the certificate details
+                    doc.add(new Paragraph("BONAFIDE CERTIFICATE").setFontSize(18).setBold());
+                    doc.add(new Paragraph("This is to certify that " + studentName + " is a student of American University of the Middle East, enrolled in the " + courseName + " course.").setFontSize(14));
+                    doc.add(new Paragraph("Date: " + date).setFontSize(14));
+
+                    // Add a section for the university seal and signature
+                    Image seal = new Image(ImageDataFactory.create("university_seal.png"));
+                    seal.scaleToFit(100, 100);
+                    doc.add(seal);
+                    doc.add(new Paragraph("Authorized Signature").setFontSize(14));
+
+                    doc.close();
+                    JOptionPane.showMessageDialog(frame, "Certificate saved as BonafideCertificate.pdf");
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(frame, "Error saving certificate: " + ex.getMessage());
+                }
             }
         });
 
         frame.setVisible(true);
     }
 
-    public static String generateBonafideCertificate(String studentName, String courseName, String date) {
-        return "This is to certify that " + studentName + " is a student of AUM, enrolled in the " + courseName + " course.\n" +
-                "This certificate is issued on " + date + " for the purpose of official verification.";
+    public static String getCurrentDate() {
+        return java.time.LocalDate.now().toString();
     }
 
-    private static String getCurrentDate() {
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return today.format(formatter);
+    public static String generateBonafideCertificate(String studentName, String courseName, String date) {
+        return "<html><body>" +
+                "<h2 style='text-align: center;'>BONAFIDE CERTIFICATE</h2>" +
+                "<p>This is to certify that <b>" + studentName + "</b> is a student of <b>American University of the Middle East</b>, " +
+                "enrolled in the <b>" + courseName + "</b> course.</p>" +
+                "<p>Date: <b>" + date + "</b></p>" +
+                "<br><br>" +
+                "<p style='text-align: center;'>Authorized Signature</p>" +
+                "</body></html>";
     }
 }
