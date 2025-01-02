@@ -7,6 +7,12 @@ class Students
     //Variable Example
     static String cls;
 
+    //static block
+    static
+    {
+        cls = "XII";
+    }
+
     public void display()
     {
         System.out.println("Name: "+name+" Roll: "+roll+" Class: "+cls);
@@ -19,22 +25,13 @@ public class StaticEg {
         Students student=new Students();
         student.name="Rahul";
         student.roll=10;
-        student.cls="X";
         student.display();
 
         Students student1=new Students();
         student1.name="Rohan";
         student1.roll=20;
-        student1.cls="X";
         student1.display();
        
-        Students.cls="XI";
-       
-        student.display();
-        student1.display();
-
-
-
 
     }
 }
