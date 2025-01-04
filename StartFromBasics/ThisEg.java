@@ -10,7 +10,7 @@ class Human
 	}
 	public void SetAge(int age, Human obj)
 	{
-	
+        // this.age=age;
 		Human obj1=obj;
 		obj1.age=age;
 		
