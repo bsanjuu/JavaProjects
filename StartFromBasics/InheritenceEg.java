@@ -15,7 +15,7 @@ class AdvCalc extends Calc {
     public int div(int n1, int n2) {
         if (n2 == 0) {
             System.out.println("Error: Division by zero is not allowed");
-            return 0; 
+            return 0;
         } else {
             return n1 / n2;
         }
@@ -31,11 +31,14 @@ public class InheritenceEg {
         int r2 = obj.sub(7, 3);
         int r3 = obj.mul(5, 3);
         int r4 = obj.div(15, 0); 
+        int r5 = obj.div(15, 3); 
+
 
 
         System.out.println("Addition: " + r1);
         System.out.println("Subtraction: " + r2);
         System.out.println("Multiplication: " + r3);
         System.out.println("Division: " + r4);
+        System.out.println("Division: " + r5);
     }
 }
