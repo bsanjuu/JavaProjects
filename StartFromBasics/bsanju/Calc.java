@@ -2,7 +2,7 @@ package bsanju;
 
 
 
-public class Calc
+public class Calc extends Object
 {
 	public int add(int n1, int n2)
 	{
