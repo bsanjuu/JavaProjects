@@ -17,6 +17,6 @@ public class ThrowsExp {
             ex.printStackTrace();
         }
         
-    }
+    }s
     
 }
