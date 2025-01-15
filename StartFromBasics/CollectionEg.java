@@ -13,7 +13,7 @@ public class CollectionEg {
         list.add("Cherry");
         list.add("Date");
         
-        // list.sort(Comparator.naturalOrder());
+        list.sort(Comparator.naturalOrder());
 
         for(String s:list)
         {
