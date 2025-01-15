@@ -1,6 +1,7 @@
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class CollectionEg {
     public static void main(String[] args) {
@@ -15,11 +16,11 @@ public class CollectionEg {
         
         // list.sort(Comparator.naturalOrder());
 
-        Set<Integer> set = new HashSet<Integer>();
+        Set<Integer> set = new TreeSet<Integer>();
+        set.add(40);
+        set.add(30);
         set.add(10);
         set.add(20);
-        set.add(30);
-        set.add(40);
         set.add(50);
         set.add(10);
 
