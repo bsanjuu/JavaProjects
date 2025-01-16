@@ -1,5 +1,7 @@
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,7 +18,7 @@ public class CollectionEg {
         
         // list.sort(Comparator.naturalOrder());
 
-        Set<Integer> set = new TreeSet<Integer>();
+        Collection<Integer> set = new TreeSet<Integer>();
         set.add(40);
         set.add(30);
         set.add(10);
@@ -26,10 +28,16 @@ public class CollectionEg {
 
         
 
-        for(int s:set)
-        {
-            System.out.println(s);
-        }
+    	Iterator<Integer> values = set.iterator();
+    	
+    	while(values.hasNext())
+    		System.out.println(values.next());
+
+
+        // for(int s:set)
+        // {
+        //     System.out.println(s);
+        // }
 
 
     }
