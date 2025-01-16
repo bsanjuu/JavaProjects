@@ -19,6 +19,7 @@ public class HashMapEg {
         System.out.println("People who are above 21");
         for (String name : students.keySet()) {
             
+            
             if (students.get(name) >= 21) 
             {
                 System.out.println(name + ":" + students.get(name));
