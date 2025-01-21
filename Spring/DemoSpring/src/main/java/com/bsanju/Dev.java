@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 
 public class Dev {
 
+    public Dev()
+    {
+        System.out.println("Construct Dev");
+    }
+
 
     public void build()
     {
