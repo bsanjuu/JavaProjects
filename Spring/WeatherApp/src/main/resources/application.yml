@@ -1,0 +1,4 @@
+weather:
+  api:
+    key: 425b53e22ec84c86ae370732251402
+    url: http://api.weatherapi.com/v1/current.json
