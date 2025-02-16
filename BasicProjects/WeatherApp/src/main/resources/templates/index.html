@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+</head>
+
+<body>
+    <h1>Weather App</h1>
+    <p>Select a city:</p>
+
+    <form action="/getWeather" method="get">
+        <select name="city">
+            <option value="New York">New York</option>
+            <option value="London">London</option>
+            <option value="Paris">Paris</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Sydney">Sydney</option>
+            <option value="Toronto">Toronto</option>
+            <option value="Dubai">Dubai</option>
+            <option value="Berlin">Berlin</option>
+        </select>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <div>
+        <h2>Weather Data</h2>
+        <p>City: <span th:text="${weather.cityName}"></span></p>
+        <p>Temperature: <span th:text="${weather.temperature}"></span>°C</p>
+        <p>Humidity: <span th:text="${weather.humidity}"></span>%</p>
+        <p>Description: <span th:text="${weather.weatherDescription}"></span></p>
+    </div>
+</body>
+
+</html>
