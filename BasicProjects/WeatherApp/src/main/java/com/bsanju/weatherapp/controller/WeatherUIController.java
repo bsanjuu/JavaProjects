@@ -22,7 +22,7 @@ public class WeatherUIController {
 
     @GetMapping
     public String home(Model model) {
-        List<String> majorCities = List.of("New York", "London", "Paris", "Tokyo", "Hyderabad", "Mumbai", "Sydney", "Toronto", "Dubai", "Berlin");
+        List<String> majorCities = List.of("Atlanta", "London", "Paris", "Tokyo", "Hyderabad", "Mumbai", "Sydney", "Toronto", "Dubai", "Berlin");
         model.addAttribute("majorCities", majorCities);
         return "index";  // Loads src/main/resources/templates/index.html
     }
@@ -35,7 +35,7 @@ public class WeatherUIController {
         } else {
             model.addAttribute("weather", weather);
         }
-        model.addAttribute("majorCities", List.of("New York", "London", "Paris", "Tokyo", "Hyderabad", "Mumbai", "Sydney", "Toronto", "Dubai", "Berlin"));
+        model.addAttribute("majorCities", List.of("Atlanta", "London", "Paris", "Tokyo", "Hyderabad", "Mumbai", "Sydney", "Toronto", "Dubai", "Berlin"));
         return "index";
     }
 }
