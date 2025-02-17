@@ -1,22 +1,28 @@
 package com.bsanju.weatherapp.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConfigurationProperties(prefix = "weather.api")
 public class ApiConfig {
 
-    @Value("${weather.api.key}")
-    private String apiKey;
+    private String key;
+    private String url;
 
-    @Value("${weather.api.url}")
-    private String apiUrl;
-
-    public String getApiKey() {
-        return apiKey;
+    public String getKey() {
+        return key;
     }
 
-    public String getApiUrl() {
-        return apiUrl;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

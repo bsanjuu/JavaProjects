@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.bsanju.weatherapp.config.ApiConfig;
 import com.bsanju.weatherapp.dto.WeatherResponse;
 import com.bsanju.weatherapp.model.WeatherData;
 import com.bsanju.weatherapp.repository.WeatherRepository;
@@ -13,18 +14,20 @@ import com.bsanju.weatherapp.repository.WeatherRepository;
 @Service
 public class WeatherService {
     private final WeatherRepository weatherRepository;
-    private final String API_KEY = "425b53e22ec84c86ae370732251402";
-    private final String BASE_URL = "http://api.weatherapi.com/v1/current.json?key={apiKey}&q={city}";
+    private final ApiConfig apiConfig;
+    private final RestTemplate restTemplate;
 
-    public WeatherService(WeatherRepository weatherRepository) {
+    public WeatherService(WeatherRepository weatherRepository, ApiConfig apiConfig, RestTemplate restTemplate) {
         this.weatherRepository = weatherRepository;
+        this.apiConfig = apiConfig;
+        this.restTemplate = restTemplate;
     }
 
     public WeatherResponse getWeather(String city) {
-        RestTemplate restTemplate = new RestTemplate();
-        
+        String url = apiConfig.getUrl() + "?key=" + apiConfig.getKey() + "&q=" + city;
+
         try {
-            Map<String, Object> apiResponse = restTemplate.getForObject(BASE_URL, Map.class, API_KEY, city);
+            Map<String, Object> apiResponse = restTemplate.getForObject(url, Map.class);
 
             if (apiResponse == null || !apiResponse.containsKey("current")) {
                 throw new RuntimeException("Invalid API response");
@@ -36,9 +39,9 @@ public class WeatherService {
             response.setCityName(city);
             response.setTemperature(Double.parseDouble(currentWeather.get("temp_c").toString()));
             response.setHumidity(Integer.parseInt(currentWeather.get("humidity").toString()));
-            response.setWeatherDescription(currentWeather.get("condition") != null ? ((Map<String, Object>) currentWeather.get("condition")).get("text").toString() : "Unknown");
+            response.setWeatherDescription(((Map<String, Object>) currentWeather.get("condition")).get("text").toString());
 
-            // Save data in DB
+            // Save Data
             WeatherData weatherData = new WeatherData();
             weatherData.setCityName(city);
             weatherData.setTemperature(response.getTemperature());
@@ -48,7 +51,6 @@ public class WeatherService {
             weatherRepository.save(weatherData);
 
             return response;
-
         } catch (Exception e) {
             e.printStackTrace();
             return new WeatherResponse();
