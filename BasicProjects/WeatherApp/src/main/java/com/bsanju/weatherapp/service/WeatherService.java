@@ -23,12 +23,33 @@ public class WeatherService {
         this.restTemplate = restTemplate;
     }
 
+    // Get Weather by City Name
     public WeatherResponse getWeather(String city) {
-        String url = apiConfig.getUrl() + "?key=" + apiConfig.getKey() + "&q=" + city;
+        return fetchWeatherData(apiConfig.getUrl() + "?key=" + apiConfig.getKey() + "&q=" + city, city);
+    }
 
+    // Get Weather by Latitude & Longitude
+    public WeatherResponse getWeatherByCoordinates(double lat, double lon) {
+        String url = apiConfig.getUrl() + "?key=" + apiConfig.getKey() + "&q=" + lat + "," + lon;
+        return fetchWeatherData(url, "Coordinates: " + lat + ", " + lon);
+    }
+
+    // Get Current City Using IP
+    public String getCurrentCity() {
+        try {
+            String ipApiUrl = "http://ip-api.com/json";
+            Map<String, Object> response = restTemplate.getForObject(ipApiUrl, Map.class);
+            return response != null ? (String) response.get("city") : "Unknown";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Unknown";
+        }
+    }
+
+    // Fetch weather data from API
+    private WeatherResponse fetchWeatherData(String url, String location) {
         try {
             Map<String, Object> apiResponse = restTemplate.getForObject(url, Map.class);
-
             if (apiResponse == null || !apiResponse.containsKey("current")) {
                 throw new RuntimeException("Invalid API response");
             }
@@ -36,14 +57,14 @@ public class WeatherService {
             Map<String, Object> currentWeather = (Map<String, Object>) apiResponse.get("current");
 
             WeatherResponse response = new WeatherResponse();
-            response.setCityName(city);
+            response.setCityName(location);
             response.setTemperature(Double.parseDouble(currentWeather.get("temp_c").toString()));
             response.setHumidity(Integer.parseInt(currentWeather.get("humidity").toString()));
             response.setWeatherDescription(((Map<String, Object>) currentWeather.get("condition")).get("text").toString());
 
-            // Save Data
+            // Save Data to Database
             WeatherData weatherData = new WeatherData();
-            weatherData.setCityName(city);
+            weatherData.setCityName(location);
             weatherData.setTemperature(response.getTemperature());
             weatherData.setHumidity(response.getHumidity());
             weatherData.setWeatherDescription(response.getWeatherDescription());

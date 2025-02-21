@@ -44,3 +44,9 @@ button:hover {
     font-size: 14px;
     padding: 5px 10px;
 }
+
+.city-icon {
+    object-fit: cover;
+    width: 100%;
+    max-height: 300px;
+}

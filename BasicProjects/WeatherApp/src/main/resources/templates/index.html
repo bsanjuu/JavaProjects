@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/styles.css"> <!-- Custom CSS -->
+    <style>
+        /* Ensure images fit nicely */
+        .city-icon {
+            object-fit: cover;
+            width: 100%;
+            max-height: 300px;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,29 +25,128 @@
         <p>Get real-time weather updates for any city.</p>
 
         <!-- Weather Search Form -->
-        <form action="/getWeather" method="get" class="input-group mb-3">
-            <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name" required>
+        <form id="weatherForm" class="input-group mb-3">
+            <input type="text" id="cityInput" name="city" class="form-control" placeholder="Enter city name" required>
             <button type="submit" class="btn btn-primary">Get Weather</button>
         </form>
 
         <!-- Error Message -->
         <p th:if="${error}" class="error" th:text="${error}"></p>
 
-        <!-- Weather Data Display -->
-        <div class="weather-card" th:if="${weather}">
-            <h3 th:text="'Weather in ' + ${weather.cityName}"></h3>
-            <p><strong>Temperature:</strong> <span th:text="${weather.temperature}"></span>°C</p>
-            <p><strong>Humidity:</strong> <span th:text="${weather.humidity}"></span>%</p>
-            <p><strong>Condition:</strong> <span th:text="${weather.weatherDescription}"></span></p>
+        <h2>Current Weather for <span id="currentCity">your location</span></h2>
+
+        <!-- Weather and Image Container -->
+        <div class="row mt-3">
+            <!-- Weather Details on Left -->
+            <div class="col-md-6">
+                <div class="weather-card" id="weatherCard" style="display: none;">
+                    <h3 id="weatherCity"></h3>
+                    <p>
+                        <strong>Temperature:</strong>
+                        <span id="weatherTemp"></span>°C
+                        <i id="weatherIcon" class="bi ms-2" style="font-size: 2rem;"></i>
+                    </p>
+                    <p><strong>Humidity:</strong> <span id="weatherHumidity"></span>%</p>
+                    <p><strong>Condition:</strong> <span id="weatherDescription"></span></p>
+                </div>
+            </div>
+
+            <!-- City Image on Right -->
+            <div class="col-md-6 text-center">
+                <img id="cityImage" src="" alt="City Icon" class="city-icon my-3"
+                    style="display:none; border-radius: 10px;">
+            </div>
         </div>
 
         <!-- Major Cities Quick Access -->
         <h4 class="mt-4">Check Weather in Major Cities</h4>
         <div class="city-buttons">
-            <a th:each="city : ${majorCities}" th:href="@{/getWeather(city=${city})}"
-                class="btn btn-outline-primary m-1" th:text="${city}"></a>
+            <button th:each="city : ${majorCities}" class="btn btn-outline-primary m-1" th:text="${city}"
+                th:attr="data-city=${city}" onclick="fetchWeatherByCity(this.getAttribute('data-city'))"></button>
         </div>
     </div>
+
+    <!-- JavaScript -->
+    <script>
+        const UNSPLASH_ACCESS_KEY = 'Oz7tLow6a82e21vbA4KyyS1v0PF8NkmbrbCASk26Rlk'; // Your API key
+
+        function fetchCurrentWeather() {
+            fetch('/weather/current')
+                .then(response => response.json())
+                .then(data => {
+                    updateWeatherData(data);
+                })
+                .catch(error => console.error('Error fetching weather:', error));
+        }
+
+        function fetchWeatherByCity(city) {
+            fetch(`/weather/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateWeatherData(data);
+                })
+                .catch(error => console.error('Error fetching weather:', error));
+        }
+
+        document.getElementById('weatherForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const city = document.getElementById('cityInput').value;
+            fetchWeatherByCity(city);
+        });
+
+        function updateWeatherData(data) {
+            document.getElementById('currentCity').innerText = data.cityName;
+            document.getElementById('weatherCity').innerText = 'Weather Details';
+            document.getElementById('weatherTemp').innerText = data.temperature;
+            document.getElementById('weatherHumidity').innerText = data.humidity;
+            document.getElementById('weatherDescription').innerText = data.weatherDescription;
+            document.getElementById('weatherCard').style.display = 'block';
+
+            fetchCityImage(data.cityName);
+            updateWeatherIcon(data.weatherDescription);
+        }
+
+        function fetchCityImage(cityName) {
+            const cityImage = document.getElementById('cityImage');
+            fetch(`https://api.unsplash.com/search/photos?query=${cityName}&orientation=landscape&client_id=${UNSPLASH_ACCESS_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        cityImage.src = data.results[0].urls.regular;
+                        cityImage.style.display = 'inline-block';
+                    } else {
+                        cityImage.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching image:', error);
+                    cityImage.style.display = 'none';
+                });
+        }
+
+        function updateWeatherIcon(condition) {
+            const weatherIcon = document.getElementById('weatherIcon');
+            const conditionLower = condition.toLowerCase();
+
+            if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
+                weatherIcon.className = 'bi bi-sun-fill text-warning';
+            } else if (conditionLower.includes('cloudy')) {
+                weatherIcon.className = 'bi bi-cloud-fill text-secondary';
+            } else if (conditionLower.includes('rain') || conditionLower.includes('shower')) {
+                weatherIcon.className = 'bi bi-cloud-rain-fill text-primary';
+            } else if (conditionLower.includes('snow')) {
+                weatherIcon.className = 'bi bi-cloud-snow-fill text-info';
+            } else if (conditionLower.includes('storm') || conditionLower.includes('thunder')) {
+                weatherIcon.className = 'bi bi-cloud-lightning-fill text-danger';
+            } else if (conditionLower.includes('mist') || conditionLower.includes('fog')) {
+                weatherIcon.className = 'bi bi-cloud-fog-fill text-muted';
+            } else {
+                weatherIcon.className = 'bi bi-cloud-fill text-secondary';
+            }
+        }
+
+        window.onload = fetchCurrentWeather;
+    </script>
 </body>
 
 </html>
