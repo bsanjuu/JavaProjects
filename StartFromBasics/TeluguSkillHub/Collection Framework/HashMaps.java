@@ -21,5 +21,8 @@ public class HashMaps {
             System.out.println(s+"'s Salary is "+map.get(s));
         
         }
+
+
+        
     }
 }
