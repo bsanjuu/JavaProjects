@@ -184,8 +184,3 @@ A program to demonstrate the concept of classes and inheritance with shapes (e.g
       ```
 
 ---
-
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-```

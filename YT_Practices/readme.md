@@ -1,4 +1,3 @@
-```markdown
 # YT_Practices
 
 This repository contains various practice projects and exercises that were completed based on YouTube tutorials and programming challenges. The projects cover a variety of basic Java concepts such as arrays, control statements, loops, and more.
@@ -65,8 +64,3 @@ This project covers the usage of loop constructs in Java like for, while, and do
       ```
 
 ---
-
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-```

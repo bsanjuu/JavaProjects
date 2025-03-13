@@ -1,4 +1,3 @@
-```markdown
 # Java Projects from Udemy
 
 This repository contains Java-based projects developed as part of Udemy courses. The projects cover a variety of topics, including web development, Hibernate, JDBC, Spring Framework, REST APIs, and more. Each project is designed to help reinforce Java programming concepts through practical, hands-on coding exercises.
@@ -77,8 +76,3 @@ A project that demonstrates building a RESTful service with Spring Boot and Spri
     - For servlets and web applications, deploy to a servlet container like Apache Tomcat and access it through a browser.
 
 ---
-
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-```

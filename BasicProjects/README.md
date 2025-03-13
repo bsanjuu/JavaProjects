@@ -1,4 +1,3 @@
-```markdown
 # JavaProjects
 
 Welcome to my collection of Java programming projects. This repository contains a variety of Java projects designed to demonstrate different aspects of Java programming, ranging from simple applications to more advanced projects using frameworks and libraries like Spring, Hibernate, and JDBC.
@@ -64,11 +63,3 @@ A weather application that fetches weather data from a public API and displays i
 
 ---
 
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-
----
-
-For more details on each project, feel free to explore the individual project directories.
-```

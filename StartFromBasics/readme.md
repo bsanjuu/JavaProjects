@@ -1,4 +1,3 @@
-```markdown
 # StartFromBasics - Java Basics Projects
 
 This repository contains various basic Java programs designed to demonstrate fundamental Java concepts, including Object-Oriented Programming (OOP), control flow, exception handling, collections, multithreading, and more. Each project serves as a step-by-step learning example for beginners.
@@ -130,8 +129,3 @@ An example of using classes and objects to model a vehicle, demonstrating constr
       ```
 
 ---
-
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-```
