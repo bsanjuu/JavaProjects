@@ -23,3 +23,22 @@
 hs_err_pid*
 
 *.DS_Store
+# Ignore everything
+*
+
+# Allow Java files
+!**/*.java
+
+# Allow Maven and Gradle build files
+!**/pom.xml
+!**/build.gradle
+!**/build.gradle.kts
+!**/settings.gradle
+!**/settings.gradle.kts
+
+# Allow Spring Boot configuration files
+!**/application.properties
+!**/application.yml
+
+# Allow Git-related files
+!.gitignore
