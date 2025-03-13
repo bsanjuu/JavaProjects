@@ -39,6 +39,7 @@ hs_err_pid*
 # Allow Spring Boot configuration files
 !**/application.properties
 !**/application.yml
+!**/readme.md
 
 # Allow Git-related files
 !.gitignore
