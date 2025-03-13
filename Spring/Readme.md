@@ -1,4 +1,4 @@
-```markdown
+
 # Spring Projects
 
 This repository contains a collection of Java Spring projects, each demonstrating different aspects of Spring Framework including cloud deployment, web applications, and basic Spring Boot apps. Below is a list of the projects included in this repository.
@@ -111,9 +111,3 @@ A simple web application built using Spring Boot and Thymeleaf, featuring basic 
 4. **Access the applications**:
     - Once the Spring Boot applications are running, you can access them locally (usually at `http://localhost:8080` unless otherwise configured).
 
----
-
-## License
-
-This repository is licensed under the MIT License. See the LICENSE file for more details.
-```
